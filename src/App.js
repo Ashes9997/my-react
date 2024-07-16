@@ -8,6 +8,8 @@ const App = () => {
   const [todoList, setTodoList] = useState([]);
   const [todo, setTodo] = useState("");
   const [error, setError] = useState(false);
+  const [isEdit, setEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1);
 
   const handleSubmit = () => {
     if(todo){
@@ -41,6 +43,45 @@ const App = () => {
     console.log("Masrk as read");
   }
 
+  const handleDelete = (index) => {
+    let newTodos = [...todoList];
+    if(newTodos[index].markAsDone){
+      newTodos.splice(index, 1);
+      setTodoList(newTodos);
+    }
+
+    else{
+      
+      <p>this to do is not completed </p>
+
+    }
+
+  };
+
+  const handleEdit = (index) => {
+    let newTodos = [...todoList];
+    console.log("newTodos[index].text" , newTodos[index].text);
+    setTodo(newTodos[index].text);
+    setEdit(true);
+    setEditIndex(index);
+
+    
+    
+  };
+ const saveEdit = () => {
+  console.log("saveEdit", todo);
+  let newTodos = [...todoList];
+  newTodos[editIndex] = {
+    ...newTodos[editIndex],
+    text: todo,
+  }
+
+  setTodoList(newTodos);
+  setEdit(false);
+  setTodo("");
+
+
+ };
   return (
     <div className="App">
       <input
@@ -51,22 +92,22 @@ const App = () => {
         onChange={handleChange}
       />
       {error ? <p>input is empty </p> : null};
-      <button onClick={handleSubmit} type="button" className="btn btn-primary d-flex ">
-        Add ToDo
+      <button onClick={ isEdit ? saveEdit : handleSubmit} type="button" className="btn btn-primary d-flex ">
+        {isEdit ? "Edit Todo" : "Add ToDo"};
       </button>
-      <button type="button" className="btn btn-danger ">
-        Delete
-      </button>
+      
 
       
 
       {todoList.map((item, i) => (
         <div className='d-flex' key={i}>
             <p style={{ textDecoration: item.markAsDone ? "line-through" : "normal",}}  className='w-25'>
-                 {item.text};
+                 {`${i+1} ) ${item.text}`};
             </p> 
             
             <button onClick={() => handleMarkAsRead(i)} className='btn btn-primary my-2'>Mark As Read</button>
+            <button onClick={() => handleDelete(i)} className='btn btn-primary my-2'>Delete</button>
+            <button onClick={() => handleEdit(i)} className='btn btn-primary my-2'>Edit</button>
         
         </div>
       ))}
