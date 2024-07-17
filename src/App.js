@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Person from "./Person";
+import { Button } from 'reactstrap';
 
 import React, { useState } from "react"; // Added React import
 
@@ -83,7 +84,9 @@ const App = () => {
 
  };
   return (
+    
     <div className="App">
+         
       <input
         type="text"
         className="form-control mx-5 my-2" style={{ height: 50, width: 200 }} 
